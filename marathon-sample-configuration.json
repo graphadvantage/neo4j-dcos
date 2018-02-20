@@ -1,41 +1,41 @@
-{  
+{
   "id":"neo4j",
-  "apps":[  
-    {  
+  "apps":[
+    {
       "id":"core",
       "cpus":2,
       "mem":8000,
       "instances":3,
       "disk": 2000,
-      "container":{  
+      "container":{
         "type":"DOCKER",
-        "volumes":[  
-          {  
+        "volumes":[
+          {
             "containerPath":"data",
             "mode":"RW",
-            "persistent":{  
+            "persistent":{
               "type":"root",
               "size":2000
             }
           },
-          {  
+          {
             "containerPath":"/data",
             "hostPath":"data",
             "mode":"RW"
           }
         ],
-        "docker":{  
-          "image":"neo4j/neo4j-dcos:1.0.0-3.1-RC1",
+        "docker":{
+          "image":"graphadvantage/neo4j-dcos:1.0.0-3.3.2",
           "network":"USER",
           "forcePullImage":true
         }
       },
-      "env":{  
+      "env":{
         "NEO4J_AUTH":"neo4j/dcos",
         "NEO4J_dbms_mode":"CORE",
         "NEO4J_causalClustering_expectedCoreClusterSize":"3"
       },
-      "ipAddress":{  
+      "ipAddress":{
         "networkName":"dcos"
       },
       "healthChecks":[
@@ -50,7 +50,7 @@
         }
       ]
     },
-    {  
+    {
       "id":"replica",
       "cpus":2,
       "mem":4000,
@@ -59,34 +59,34 @@
       "dependencies":[
         "/neo4j/core"
       ],
-      "container":{  
+      "container":{
         "type":"DOCKER",
-        "volumes":[  
-          {  
+        "volumes":[
+          {
             "containerPath":"data",
             "mode":"RW",
-            "persistent":{  
+            "persistent":{
               "type":"root",
               "size":2000
             }
           },
-          {  
+          {
             "containerPath":"/data",
             "hostPath":"data",
             "mode":"RW"
           }
         ],
-        "docker":{  
+        "docker":{
           "image":"neo4j/neo4j-dcos:1.0.0-3.1-RC1",
           "network":"USER",
           "forcePullImage":true
         }
       },
-      "env":{  
+      "env":{
         "NEO4J_AUTH":"neo4j/dcos",
         "NEO4J_dbms_mode":"READ_REPLICA"
       },
-      "ipAddress":{  
+      "ipAddress":{
         "networkName":"dcos"
       },
       "healthChecks":[
@@ -101,7 +101,7 @@
         }
       ]
     },
-    {  
+    {
       "id":"proxy",
       "cpus":1,
       "mem":1024,
@@ -109,14 +109,14 @@
       "dependencies":[
         "/neo4j/core"
       ],
-      "container":{  
+      "container":{
         "type":"DOCKER",
-        "docker":{  
-          "image":"neo4j/neo4j-dcos-proxy:1.0.0",
+        "docker":{
+          "image":"graphadvantage/neo4j-dcos-proxy:1.0.0",
           "forcePullImage":true,
           "network":"BRIDGE",
-          "portMappings":[  
-            {  
+          "portMappings":[
+            {
               "hostPort":7474,
               "containerPort":7474,
               "protocol":"tcp"
@@ -124,7 +124,7 @@
           ]
         }
       },
-      "env":{  
+      "env":{
         "DCOS_NEO4J_USER":"neo4j",
         "DCOS_NEO4J_PASS":"dcos"
       },
@@ -139,7 +139,7 @@
           "maxConsecutiveFailures":10
         }
       ],
-      "acceptedResourceRoles":[  
+      "acceptedResourceRoles":[
         "slave_public"
       ]
     }

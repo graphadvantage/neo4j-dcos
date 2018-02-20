@@ -2,4 +2,4 @@
 
 cd $(dirname $0)
 
-docker build --tag neo4j/neo4j-dcos:latest .
+docker build --tag graphadvantage/neo4j-dcos:1.0.0-3.3.2 .
