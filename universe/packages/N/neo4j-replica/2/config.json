@@ -1,7 +1,7 @@
 {
   "type": "object",
   "properties": {
-    "neo4j-core": {
+    "neo4j-replica": {
       "description": "Neo4j specific configuration properties",
       "type": "object",
       "properties": {
@@ -16,34 +16,28 @@
           "default": "dcos"
         },
         "cpus": {
-          "description": "CPU shares allocated to one neo4j core instance.",
+          "description": "CPU shares allocated to one neo4j read replica instance.",
           "type": "number",
           "default": 2.0,
-          "minimum": 1.0
+          "minimum": 0.5
         },
         "mem": {
-          "description": "Memory [mb] allocated to one neo4j core instance.",
+          "description": "Memory [mb] allocated to one neo4j read replica instance.",
           "type": "number",
           "default": 4000.0,
-          "minimum": 1000.0
+          "minimum": 512.0
         },
         "disk": {
-          "description": "Disk size [mb] allocated to one neo4j core instance.",
+          "description": "Disk size [mb] allocated to one neo4j read replica instance.",
           "type": "number",
           "default": 8000.0,
-          "minimum": 4000.0
+          "minimum": 500.0
         },
         "instances": {
-          "description": "Amount of neo4j core instances.",
+          "description": "Amount of neo4j read replica instances.",
           "type": "number",
-          "default": 3,
-          "minimum": 3
-        },
-        "expected-cluster-size": {
-          "description": "Expected core cluster size.",
-          "type": "number",
-          "default": 3,
-          "minimum": 3
+          "default": 2,
+          "minimum": 0
         },
         "network-name": {
           "description": "The name of your existing DC/OS overlay network.",
@@ -58,12 +52,11 @@
         "mem",
         "disk",
         "instances",
-        "expected-cluster-size",
         "network-name"
       ]
     }
   },
   "required": [
-    "neo4j-core"
+    "neo4j-replica"
   ]
 }
